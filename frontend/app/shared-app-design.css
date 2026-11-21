@@ -49,6 +49,12 @@
 .app-shell[data-section] :is(.fitsync-wordmark,.wordmark-letter){font-family:Georgia,'Times New Roman',serif!important;font-style:italic;font-weight:900;letter-spacing:-.05em}
 
 /* Consistent yellow header actions on every page and theme. */
+.app-shell .topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+
 .app-shell .topbar :is(.menu-toggle,.top-actions>button){background:#ffdf32!important;color:#292718!important;border:1px solid #d9b831!important;border-radius:16px;box-shadow:inset 0 2px 2px #fff6b0,0 3px 0 #c5a72d!important}
 .app-shell .topbar .top-actions>button:not(.profile-button){display:grid;place-items:center;min-width:44px;min-height:44px}
 .app-shell .topbar .profile-button .avatar{background:#fff0a0;color:#292718}
