@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
-import { backendOrigin, deploymentErrors } from '../shared/deployment.mjs'
+import { backendOrigin, deploymentErrors, publicAppOrigin } from '../shared/deployment.mjs'
 
 const env = {
   VERCEL: '1', BACKEND_URL: 'https://fitsync-backend.example',
@@ -18,6 +18,9 @@ for (const value of ['', '{}', 'null', '[]', '{broken', JSON.stringify({ v1: 'to
 assert(deploymentErrors('backend', { ...env, PRIVATE_DATA_ENCRYPTION_ACTIVE_KEY: 'missing' }).length > 0)
 assert(!deploymentErrors('backend', { ...env, PRIVATE_DATA_ENCRYPTION_ACTIVE_KEY: 'missing' }).join('').includes('ab'.repeat(32)))
 assert.equal(backendOrigin({}), 'http://127.0.0.1:3001')
+assert.equal(publicAppOrigin({}), 'http://localhost:3000')
+assert.equal(publicAppOrigin({ NEXT_PUBLIC_SITE_URL: 'http://localhost:3000' }), 'http://localhost:3000')
+assert.equal(publicAppOrigin({ VERCEL: '1', VERCEL_PROJECT_PRODUCTION_URL: 'my-app.vercel.app' }), 'https://my-app.vercel.app')
 assert.equal(backendOrigin({ BACKEND_URL: 'http://localhost:3001/' }), 'http://localhost:3001')
 assert.equal(backendOrigin({ ...env, BACKEND_URL: `${env.BACKEND_URL}/` }), env.BACKEND_URL)
 for (const value of ['', 'http://localhost:3001', 'https://127.0.0.1', 'https://api.example/api', 'https://user:pass@api.example', 'https://api.example?token=private', env.NEXT_PUBLIC_SITE_URL]) {

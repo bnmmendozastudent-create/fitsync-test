@@ -30,13 +30,13 @@ Public key is not service role. Never put service-role/secret key in NEXT_PUBLIC
 
 ## Vercel
 
-Two projects, same `AndreDizon/fitsync-app` Git repository, production main:
+Two projects, the same GitHub repository, production branch `main`:
 
 | | Frontend | Backend |
 | --- | --- | --- |
 | Project | fitsync-app-features | fitsync-backend |
 | Root | frontend | backend |
-| Known production origin | https://fitsync-app-features.vercel.app | https://fitsync-backend-hazel.vercel.app |
+| Production origin | Your frontend Vercel domain | Your backend Vercel domain |
 
 Use Node24/Next.js preset and outside-root source access. Per-app vercel.json installs root locked workspaces and builds the app. Output is `.next` relative to app root. Root workspace build does not create repository-root `.next`, which caused an earlier deployment failure.
 
@@ -46,8 +46,8 @@ Backend root 404 is normal. Verify backend `/api/health`, then frontend `/api/he
 
 Google worked but returned from Vercel to localhost. Supabase Site URL was localhost. User corrected Site URL/allowed callback and confirmed production Google sign-in works.
 
-- Supabase Site URL: `https://fitsync-app-features.vercel.app`.
-- Allowed app callback: `https://fitsync-app-features.vercel.app/auth/callback` (and reset-password variant documented in AUTH_SETUP.md).
+- Supabase Site URL: your frontend Vercel domain.
+- Allowed app callback: `https://YOUR_FRONTEND_DOMAIN/auth/callback` (and reset-password variant documented in AUTH_SETUP.md).
 - Frontend NEXT_PUBLIC_SITE_URL must match frontend production origin.
 - Google Cloud authorized redirect is Supabase `/auth/v1/callback`, NOT frontend or backend app URL.
 - Allow explicit localhost callbacks for development without replacing production Site URL.

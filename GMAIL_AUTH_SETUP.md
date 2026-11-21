@@ -54,7 +54,7 @@ Set these in the **backend Vercel project**, in the deployment environment you u
 
 | Key | Value |
 | --- | --- |
-| `AUTH_EMAIL_SITE_URL` | `https://fitsync-app-features.vercel.app` (origin only) |
+| `AUTH_EMAIL_SITE_URL` | `https://YOUR_FRONTEND_DOMAIN.vercel.app` (origin only) |
 | `GMAIL_CLIENT_ID` | The new mail-sending OAuth client ID |
 | `GMAIL_CLIENT_SECRET` | That client's secret |
 | `GMAIL_REFRESH_TOKEN` | Sender mailbox's authorized refresh token |

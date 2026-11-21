@@ -1,6 +1,7 @@
 import 'server-only'
 import { cookies } from 'next/headers'
 import { createServerClient } from '@supabase/ssr'
+import { publicAppOrigin } from '../../../shared/deployment.mjs'
 
 export async function authClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -20,9 +21,7 @@ export async function authClient() {
 }
 
 export function appOrigin() {
-  const configured = process.env.NEXT_PUBLIC_SITE_URL
-  if (!configured && process.env.NODE_ENV === 'production') throw new Error('NEXT_PUBLIC_SITE_URL is required')
-  const url = new URL(configured || 'http://localhost:3000')
+  const url = new URL(publicAppOrigin())
   if (process.env.NODE_ENV === 'production' && url.protocol !== 'https:') throw new Error('HTTPS is required')
   return url.origin
 }

@@ -24,6 +24,20 @@ export function backendOrigin(env = process.env) {
   return url.origin
 }
 
+export function publicAppOrigin(env = process.env) {
+  const configured = env.NEXT_PUBLIC_SITE_URL?.trim()
+  if (configured) {
+    if (env.VERCEL === '1') return httpsOrigin(configured, 'NEXT_PUBLIC_SITE_URL')
+    const url = new URL(configured)
+    if (!['http:', 'https:'].includes(url.protocol) || url.username || url.password || url.pathname !== '/' || url.search || url.hash) throw new Error('NEXT_PUBLIC_SITE_URL must be an HTTP(S) origin without a path, credentials or query string.')
+    return url.origin
+  }
+  const vercelOrigin = env.VERCEL_PROJECT_PRODUCTION_URL?.trim()
+  if (env.VERCEL === '1' && vercelOrigin) return `https://${vercelOrigin.replace(/^https?:\/\//, '').replace(/\/$/, '')}`
+  if (env.VERCEL === '1') throw new Error('Set NEXT_PUBLIC_SITE_URL or deploy with VERCEL_PROJECT_PRODUCTION_URL available.')
+  return 'http://localhost:3000'
+}
+
 export function deploymentErrors(app, env = process.env) {
   if (!['frontend', 'backend'].includes(app)) throw new Error('Choose frontend or backend.')
   if (env.VERCEL !== '1') return []
@@ -39,7 +53,7 @@ export function deploymentErrors(app, env = process.env) {
     } catch { errors.push('The legacy Supabase public key is not a valid JWT-shaped key.') }
   }
   if (app === 'frontend') {
-    check(() => httpsOrigin(env.NEXT_PUBLIC_SITE_URL, 'NEXT_PUBLIC_SITE_URL'))
+    check(() => publicAppOrigin(env))
     check(() => backendOrigin(env))
   }
   if (app === 'backend') {

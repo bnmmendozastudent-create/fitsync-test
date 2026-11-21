@@ -10,7 +10,7 @@ redeploy the older 16.3.3 lockfile when testing this configuration.
 
 | Setting | Frontend project | Backend project |
 | --- | --- | --- |
-| Git repository | AndreDizon/fitsync-app | AndreDizon/fitsync-app |
+| Git repository | Your GitHub repository | Your GitHub repository |
 | Production branch | main | main |
 | Root Directory | `frontend` | `backend` |
 | Framework Preset | Next.js | Next.js |
@@ -36,6 +36,9 @@ These are build inputs; the exercise library does not call a database or API.
 Add these in each project's **Settings → Environment Variables** for Production
 and any Preview environments you use. Environment changes require a new build.
 Use actual values in Vercel; do not commit `.env.local` files.
+The frontend can derive its HTTPS production origin from Vercel automatically.
+Setting `NEXT_PUBLIC_SITE_URL` explicitly is still recommended for custom domains
+and authentication callbacks.
 
 ### Backend project
 
