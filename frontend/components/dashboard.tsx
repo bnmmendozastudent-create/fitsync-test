@@ -76,13 +76,14 @@ import {
   Zap,
 } from 'lucide-react'
 
-type Section = 'home' | 'plans' | 'library' | 'social' | 'progress' | 'settings'
+type Section = 'home' | 'plans' | 'library' | 'social' | 'gym' | 'progress' | 'settings'
 type PlanTab = 'plan' | 'playlist' | 'library'
 
 const navItems: { id: Section; label: string; description: string; icon: typeof Home }[] = [
   { id: 'home', label: 'Home', description: 'Your daily overview', icon: Home },
   { id: 'plans', label: 'Plans', description: 'Workouts, meals & library', icon: CalendarDays },
   { id: 'social', label: 'Social', description: 'Your community', icon: Users },
+  { id: 'gym', label: 'Explore gyms', description: 'Find and manage gym communities', icon: MapPin },
   { id: 'progress', label: 'Progress', description: 'Records & milestones', icon: Activity },
 ]
 
@@ -200,6 +201,7 @@ function App({ userName: initialUserName, userEmail }: { userName: string; userE
         {active === 'plans' && <PlansWorkspace key={notificationVersion} tab={planTab} setTab={setPlanTab} initialMode={homeTarget?.mode} focusWater={homeTarget?.water} initialDate={notificationDestination?.page==='plans'?notificationDestination.date:undefined} />}
         {active === 'library' && <LibraryView />}
         {active === 'social' && <SocialView key={notificationVersion} initialSection={notificationDestination?.page==='social'?(notificationDestination.gymId?'gyms':notificationDestination.kind):homeTarget?.socialSection} initialGymId={notificationDestination?.gymId} initialGymTab={notificationDestination?.gymTab} initialPostId={notificationDestination?.page==='social'?notificationDestination.postId:undefined} />}
+        {active === 'gym' && <SocialView key="explore-gym" initialSection="gyms" />}
         {active === 'progress' && <ProgressWorkspace key={notificationVersion} initialTab={homeTarget?.progressTab} userName={userName} />}
         {active === 'settings' && <SettingsWorkspace userName={userName} userEmail={userEmail} initials={initials} theme={theme} setTheme={setTheme} onEditAccount={()=>{accountReturnTarget.current=document.activeElement instanceof HTMLElement?document.activeElement:null;accountFromDrawer.current=false;setAccountOpen(true)}} onProgress={() => setActive('progress')} />}
         <AppFooter onNavigate={(section) => { navigate(section); setNavHidden(false); window.scrollTo(0, 0) }} />
